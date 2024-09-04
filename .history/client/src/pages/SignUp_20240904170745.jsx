@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 export default function SignUp() {
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -23,18 +21,8 @@ export default function SignUp() {
           className="w-full p-3 rounded-lg my-2"
           id="password"
         />
-        <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95">
-          Sign up
-        </button>
+        <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:"  >Sign up</button>
       </form>
-      <div className="flex gap-2 mt-5">
-        <p>
-          Already have an account?{" "}
-        </p>
-          <Link to="/sign-in" className="text-blue-700">
-            <span>Sign In</span>
-          </Link>
-      </div>
     </div>
   );
 }
