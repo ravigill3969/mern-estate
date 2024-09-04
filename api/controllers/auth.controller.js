@@ -5,15 +5,6 @@ import { errorHandler } from "../utils/error.js";
 export const signUp = async (req, res, next) => {
   const { username, email, password } = req.body;
 
-  if (!username || !email || !password) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    return res.status(400).json({ message: "Email already in use" });
-  }
-
   const hashedPassword = await bcrypt.hash(password, 12);
 
   const newUser = new User({
@@ -28,6 +19,6 @@ export const signUp = async (req, res, next) => {
       message: "User created successfully",
     });
   } catch (error) {
-    next(errorHandler);
+    next(errorHandler(500, error.message));
   }
 };
