@@ -43,3 +43,29 @@ export const updateUser = async (req, res, next) => {
     return next(error);
   }
 };
+
+export const deleteUser = async (req, res, next) => {
+  // Check if the authenticated user is the same as the user being deleted
+  if (req.user.id != req.params.id) {
+    return next(errorHandler(401, "You can only delete your own account"));
+  }
+
+  try {
+    // Find the user and delete their account
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+
+    // If user not found, return an error
+    if (!deletedUser) {
+      return next(errorHandler(404, "User not found"));
+    }
+
+    // Send a success message
+    return res
+      .clearCookie("access_token")
+      .status(200)
+      .json("User deleted successfully");
+  } catch (error) {
+    // Pass the error to the next middleware (error handler)
+    return next(error);
+  }
+};
