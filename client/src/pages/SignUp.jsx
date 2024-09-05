@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
+import { FaSignInAlt } from "react-icons/fa";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -69,8 +70,9 @@ export default function SignUp() {
         />
         <button
           disabled={loading}
-          className={`bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 `}
+          className={`bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 relative`}
         >
+          <FaSignInAlt className="text-white absolute right-72 bottom-4" />
           {loading ? "Loading..." : "Sign Up"}
         </button>
         <OAuth />

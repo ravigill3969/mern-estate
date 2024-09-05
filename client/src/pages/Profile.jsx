@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import { FaSignOutAlt } from "react-icons/fa";
+import { MdDeleteSweep } from "react-icons/md";
 
 import {
   getStorage,
@@ -16,6 +18,9 @@ import {
   DeleteUserStart,
   DeleteUserSuccess,
   DeleteUserFailure,
+  SignOutStart,
+  SignOutUserSuccess,
+  SignOutUserFailure,
 } from "../redux/user/userSlice";
 
 export default function Profile() {
@@ -103,7 +108,7 @@ export default function Profile() {
       });
 
       const data = await res.json();
-      if(data.success === false) {
+      if (data.success === false) {
         dispatch(DeleteUserFailure(data.message));
         return;
       }
@@ -113,6 +118,22 @@ export default function Profile() {
       dispatch(DeleteUserFailure(error.message));
     }
   };
+
+  const handleSignOut = async () => {
+    dispatch(SignOutStart());
+    try {
+      const res = await fetch("/api/auth/signout", {});
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(SignOutUserFailure(data.message));
+        return;
+      }
+      dispatch(SignOutUserSuccess());
+    } catch (error) {
+      dispatch(SignOutUserFailure(error.message));
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl semibold text-center my-7">Profile</h1>
@@ -182,11 +203,13 @@ export default function Profile() {
       <div className="flex mt-5 justify-between">
         <span
           onClick={handleDeleteUser}
-          className="text-red-700 cursor-pointer"
+          className="text-red-700 cursor-pointer flex items-center"
         >
-          Delete Account
+         <MdDeleteSweep /> Delete Account
         </span>
-        <span className="text-red-700 cursor-pointer">Sign out</span>
+        <span onClick={handleSignOut} className="text-red-700 cursor-pointer flex items-center">
+          <FaSignOutAlt /> Sign out
+        </span>
       </div>
       <p className="text-red-700 mt-5">{error ? error : ""}</p>
       <p className="text-green-700 mt-5">
