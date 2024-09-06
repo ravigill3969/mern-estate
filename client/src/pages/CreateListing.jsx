@@ -23,7 +23,7 @@ function CreateListing() {
     bathrooms: 1,
     bedrooms: 1,
     parking: false,
-    furnished: "",
+    furnished: false,
     type: "rent",
     offer: false,
   });
@@ -34,7 +34,7 @@ function CreateListing() {
 
   const navigate = useNavigate();
 
-//   console.log(formData);
+  //   console.log(formData);
 
   const handleImageSubmit = () => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
@@ -162,7 +162,7 @@ function CreateListing() {
       if (data.success === false) {
         setError(data.message);
       }
-      console.log(data)
+      console.log(data);
 
       navigate(`/listing/${data._id}`);
     } catch (error) {
