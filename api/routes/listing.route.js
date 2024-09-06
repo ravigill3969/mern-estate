@@ -4,7 +4,7 @@ import {
   deleteListing,
   updateListing,
   getListing,
-  getListings
+  getListings,
 } from "../controllers/listing.controller.js";
 import { verifyToken } from "../utils/verifyUser.js";
 

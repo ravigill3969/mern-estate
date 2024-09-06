@@ -18,17 +18,6 @@ mongoose
     console.log("Error connecting to DB:", err);
   });
 
-mongoose.connection.on("disconnected", () => {
-  console.log("Mongoose connection disconnected");
-});
-
-mongoose.connection.on("connected", () => {
-  console.log("Mongoose connected");
-});
-
-mongoose.connection.on("error", (err) => {
-  console.log("Mongoose connection error:", err);
-});
 const app = express();
 
 app.use(cookieParser());
