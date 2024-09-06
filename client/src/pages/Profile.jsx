@@ -31,6 +31,8 @@ export default function Profile() {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showListingError, setShowListingError] = useState(false);
+  const [userListing, setUserListing] = useState([]);
 
   const { loading, error } = useSelector((state) => state.user);
 
@@ -135,6 +137,29 @@ export default function Profile() {
     }
   };
 
+  const handleShowListing = async () => {
+    try {
+      setShowListingError(false);
+      const res = await fetch(`/api/user/listing/${currentUser._id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+      setUserListing(data);
+
+      if (data.success === false) {
+        return;
+      }
+    } catch {
+      setShowListingError(true);
+    }
+  };
+
+  console.log(userListing);
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl semibold text-center my-7">Profile</h1>
@@ -200,7 +225,10 @@ export default function Profile() {
         >
           {loading ? "Updating..." : "Update"}
         </button>
-        <Link className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95 transition" to={"/create-listing"}>
+        <Link
+          className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95 transition"
+          to={"/create-listing"}
+        >
           Create Listing
         </Link>
       </form>
@@ -209,9 +237,12 @@ export default function Profile() {
           onClick={handleDeleteUser}
           className="text-red-700 cursor-pointer flex items-center"
         >
-         <MdDeleteSweep /> Delete Account
+          <MdDeleteSweep /> Delete Account
         </span>
-        <span onClick={handleSignOut} className="text-red-700 cursor-pointer flex items-center">
+        <span
+          onClick={handleSignOut}
+          className="text-red-700 cursor-pointer flex items-center"
+        >
           <FaSignOutAlt /> Sign out
         </span>
       </div>
@@ -219,6 +250,42 @@ export default function Profile() {
       <p className="text-green-700 mt-5">
         {updateSuccess ? "User is updated successfully" : ""}
       </p>
+      <button className="text-green-700 w-full" onClick={handleShowListing}>
+        Show Listings
+      </button>
+      <p className="text-red-700 mt-5">
+        {showListingError ? "Error showing listings" : ""}
+      </p>
+      <div className="flex flex-col gap-4">
+      <h1 className="text-2xl font-semibold text-center my-7">Your Listings</h1>
+        {userListing.length > 0
+          ? userListing.map((listing) => (
+              <div
+                key={listing._id}
+                className="border rounded-lg p-3 flex justify-between items-center gap-4"
+              >
+                <Link to={`/listing/${listing._id}`}>
+                  <img
+                    src={listing.imageUrls[0]}
+                    alt="listing"
+                    className="h-16 w-16 object-contain"
+                  />
+                </Link>
+                <Link
+                  to={`/listing/${listing._id}`}
+                  className="flex-1 text-slate-700 font-semibold hover:underline truncate"
+                >
+                  <p>{listing.name}</p>
+                </Link>
+                <div className="flex flex-col items-center">
+                  <button className="text-red-700 uppercase">Delete</button>
+                  <button className="text-green-700 uppercase">Edit</button>
+                </div>
+              </div>
+            ))
+          : "" // Optionally, show this if there are no listings
+        }
+      </div>
     </div>
   );
 }

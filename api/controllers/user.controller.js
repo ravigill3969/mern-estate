@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
+import Listing from "../models/listing.model.js";
 
 export const updateUser = async (req, res, next) => {
   // Check if the authenticated user is the same as the user being updated
@@ -66,6 +67,19 @@ export const deleteUser = async (req, res, next) => {
       .json("User deleted successfully");
   } catch (error) {
     // Pass the error to the next middleware (error handler)
+    return next(error);
+  }
+};
+
+export const getUserListings = async (req, res, next) => {
+  if (req.user.id != req.params.id) {
+    return next(errorHandler(401, "You can only view your own listings"));
+  }
+  try {
+    const listing = await Listing.find({ userRef: req.params.id });
+
+    return res.status(200).json(listing);
+  } catch (error) {
     return next(error);
   }
 };
