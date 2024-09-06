@@ -12,11 +12,23 @@ dotenv.config();
 mongoose
   .connect(process.env.MONGO)
   .then(() => {
-    console.log("connected to db");
+    console.log("Connected to DB");
   })
   .catch((err) => {
-    console.log(err);
+    console.log("Error connecting to DB:", err);
   });
+
+mongoose.connection.on("disconnected", () => {
+  console.log("Mongoose connection disconnected");
+});
+
+mongoose.connection.on("connected", () => {
+  console.log("Mongoose connected");
+});
+
+mongoose.connection.on("error", (err) => {
+  console.log("Mongoose connection error:", err);
+});
 const app = express();
 
 app.use(cookieParser());
@@ -24,14 +36,13 @@ app.use(express.json());
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/listing",listingRouter)
+app.use("/api/listing", listingRouter);
 
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(`running on ${PORT}`);
 });
-
 
 app.use((err, req, res, next) => {
   const status = err.status || 500;
@@ -42,4 +53,3 @@ app.use((err, req, res, next) => {
     message,
   });
 });
-

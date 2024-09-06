@@ -276,7 +276,7 @@ export default function Profile() {
         {showListingError ? "Error showing listings" : ""}
       </p>
       <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-semibold text-center my-7">
+        <h1 className="text-2xl font-semibold text-center mt-3">
           Your Listings
         </h1>
         {
@@ -306,7 +306,9 @@ export default function Profile() {
                     >
                       Delete
                     </button>
-                    <button className="text-green-700 uppercase">Edit</button>
+                    <Link to={`/edit-listing/${listing._id}`}>
+                      <button className="text-green-700 uppercase">Edit</button>
+                    </Link>
                   </div>
                 </div>
               ))
