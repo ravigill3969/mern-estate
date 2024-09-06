@@ -74,3 +74,6 @@ webpack-stats.json
 *.sw?
 *.ntvs*
 .DS_Store
+
+
+.history
