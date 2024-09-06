@@ -72,8 +72,7 @@ export const deleteUser = async (req, res, next) => {
 };
 
 export const getUserListings = async (req, res, next) => {
-
-  console.log("here getUserListings" )
+  console.log("here getUserListings");
   if (req.user.id != req.params.id) {
     return next(errorHandler(401, "You can only view your own listings"));
   }
@@ -81,6 +80,22 @@ export const getUserListings = async (req, res, next) => {
     const listing = await Listing.find({ userRef: req.params.id });
 
     return res.status(200).json(listing);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return next(errorHandler(404, "User not found"));
+    }
+
+    const { password: pass, ...rest } = user._doc;
+
+    return res.status(200).json(rest);
   } catch (error) {
     return next(error);
   }
