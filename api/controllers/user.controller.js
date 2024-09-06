@@ -72,6 +72,8 @@ export const deleteUser = async (req, res, next) => {
 };
 
 export const getUserListings = async (req, res, next) => {
+
+  console.log("here getUserListings" )
   if (req.user.id != req.params.id) {
     return next(errorHandler(401, "You can only view your own listings"));
   }

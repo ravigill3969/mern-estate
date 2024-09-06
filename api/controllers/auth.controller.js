@@ -25,6 +25,8 @@ export const signUp = async (req, res, next) => {
 };
 
 export const signIn = async (req, res, next) => {
+  console.log("signing in");
+
   const { email, password } = req.body;
 
   try {
@@ -116,7 +118,7 @@ export const google = async (req, res, next) => {
   }
 };
 
-export const  signOut = async (req, res, next) => {
+export const signOut = async (req, res, next) => {
   try {
     res
       .clearCookie("access_token")
