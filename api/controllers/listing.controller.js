@@ -2,7 +2,7 @@ import Listing from "../models/listing.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const createListing = async (req, res, next) => {
-  console.log(req.body)
+  console.log(req.body);
   try {
     const newListing = await Listing.create(req.body);
 
@@ -90,8 +90,10 @@ export const getListings = async (req, res, next) => {
     }
 
     let type = req.query.type;
-    if (type === undefined || type === "sale") {
-      type = { $in: ["rent", "sale"] };
+    if (type === undefined || type === "") {
+      type = { $in: ["rent", "sale"] }; // If no type is specified, show both "rent" and "sale"
+    } else {
+      type = type; // Otherwise, use the specified type (either "rent" or "sale")
     }
 
     const searchTerm = req.query.searchTerm || "";
@@ -111,9 +113,9 @@ export const getListings = async (req, res, next) => {
       .limit(limit)
       .skip(startIndex)
       .sort({ [sort]: order });
+
     res.status(200).json(listings);
   } catch (error) {
     next(error);
   }
 };
-
