@@ -12,10 +12,9 @@ function Contact({ listing }) {
       try {
         const res = await fetch(`/api/user/${listing1.userRef}`);
         const data = await res.json();
-        console.log(data);
         setLandlord(data);
       } catch (err) {
-        console.log(err);
+        return err;
       }
     };
 

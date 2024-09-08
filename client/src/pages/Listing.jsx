@@ -47,9 +47,6 @@ export default function Listing() {
     };
     fetchListing();
   }, [params.id]);
-  console.log(loading);
-
-  console.log(listing);
 
   return (
     <main>
@@ -138,13 +135,14 @@ export default function Listing() {
               </li>
             </ul>
             {currentUser && listing.userRef !== currentUser._id && !contact && (
-              <button onClick={()=>setContact(true)} className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3">
+              <button
+                onClick={() => setContact(true)}
+                className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3"
+              >
                 Contact Landlord
               </button>
             )}
-            {contact && (
-              <Contact userRef={listing.userRef} listing={listing} />
-            )}
+            {contact && <Contact userRef={listing.userRef} listing={listing} />}
           </div>
         </div>
       )}

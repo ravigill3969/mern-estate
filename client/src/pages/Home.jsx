@@ -13,8 +13,6 @@ export default function Home() {
   const [rentListings, setRentListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
 
-  console.log(offerListings);
-
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
@@ -26,7 +24,7 @@ export default function Home() {
         }
 
         const data = await response.json();
-        console.log(data);
+        
 
         // Set the state for offer listings
         setOfferListings(data);
@@ -36,7 +34,7 @@ export default function Home() {
           await fetchRentListings();
         }
       } catch (error) {
-        console.error("Error fetching offer listings:", error);
+        return error;
       }
     };
     fetchOfferListings();
@@ -48,7 +46,7 @@ export default function Home() {
         setRentListings(data);
         fetchSaleListings();
       } catch (error) {
-        console.log(error);
+        return error;
       }
     };
 
@@ -58,7 +56,7 @@ export default function Home() {
         const data = await response.json();
         setSaleListings(data);
       } catch (error) {
-        console.log(error);
+        return error;
       }
     };
   }, []);
@@ -90,7 +88,6 @@ export default function Home() {
 
       <Swiper navigation>
         {offerListings.map((listing) => {
-          console.log(listing.imageUrls[0]); // Check if the image URL is valid
           return (
             <SwiperSlide key={listing._id}>
               <div className="h-[500px]" key={listing._id}>
@@ -109,63 +106,70 @@ export default function Home() {
         })}
       </Swiper>
 
-
-
       {/* bottom */}
 
-        <div className="flex flex-col gap-8 my-10 p-3 max-w-6xl  mx-auto">
-          {
-            offerListings && offerListings.length > 0 && (
-              <div>
-                <div className="my-3">
-                  <h2 className="text-2xl font-semibold text-slate-600">Recent Offers</h2>
-                  <Link className="text-sm text-blue-800 hover:underline" to={"/search?offer=true"}>Show more offers</Link>
-                </div>
-                <div className="flex flex-wrap gap-4">
-                  {offerListings.map((listing) => (
-                    <ListingItem key={listing._id} listing={listing} />
-                  ))}
-                  
-                </div>
-              </div>
-            )
-          }
-          {
-            rentListings && rentListings.length > 0 && (
-              <div>
-                <div className="my-3">
-                  <h2 className="text-2xl font-semibold text-slate-600">Recent places for Recent</h2>
-                  <Link className="text-sm text-blue-800 hover:underline" to={"/search?type=rent"}>Show more offers</Link>
-                </div>
-                <div className="flex flex-wrap gap-4">
-                  {saleListings.map((listing) => (
-                    <ListingItem key={listing._id} listing={listing} />
-                  ))}
-                  
-                </div>
-              </div>
-            )
-          }
-          {
-            saleListings && saleListings.length > 0 && (
-              <div>
-                <div className="my-3">
-                  <h2 className="text-2xl font-semibold text-slate-600">Recent places for sale</h2>
-                  <Link className="text-sm text-blue-800 hover:underline" to={"/search?type=sale"}>Show more offers</Link>
-                </div>
-                <div className="flex flex-wrap gap-4">
-                  {saleListings.map((listing) => (
-                    <ListingItem key={listing._id} listing={listing} />
-                  ))}
-                  
-                </div>
-              </div>
-            )
-          }
-        </div>
-
-
-
+      <div className="flex flex-col gap-8 my-10 p-3 max-w-6xl  mx-auto">
+        {offerListings && offerListings.length > 0 && (
+          <div>
+            <div className="my-3">
+              <h2 className="text-2xl font-semibold text-slate-600">
+                Recent Offers
+              </h2>
+              <Link
+                className="text-sm text-blue-800 hover:underline"
+                to={"/search?offer=true"}
+              >
+                Show more offers
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {offerListings.map((listing) => (
+                <ListingItem key={listing._id} listing={listing} />
+              ))}
+            </div>
+          </div>
+        )}
+        {rentListings && rentListings.length > 0 && (
+          <div>
+            <div className="my-3">
+              <h2 className="text-2xl font-semibold text-slate-600">
+                Recent places for Recent
+              </h2>
+              <Link
+                className="text-sm text-blue-800 hover:underline"
+                to={"/search?type=rent"}
+              >
+                Show more offers
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {saleListings.map((listing) => (
+                <ListingItem key={listing._id} listing={listing} />
+              ))}
+            </div>
+          </div>
+        )}
+        {saleListings && saleListings.length > 0 && (
+          <div>
+            <div className="my-3">
+              <h2 className="text-2xl font-semibold text-slate-600">
+                Recent places for sale
+              </h2>
+              <Link
+                className="text-sm text-blue-800 hover:underline"
+                to={"/search?type=sale"}
+              >
+                Show more offers
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {saleListings.map((listing) => (
+                <ListingItem key={listing._id} listing={listing} />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

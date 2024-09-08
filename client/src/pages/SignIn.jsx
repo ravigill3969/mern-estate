@@ -32,7 +32,7 @@ export default function SignIp() {
       });
       const data = await res.json();
 
-      console.log(data);
+     
       if (data.success === false) {
         dispatch(SignInFailure(data.message));
         return;

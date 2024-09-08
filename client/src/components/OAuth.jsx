@@ -34,13 +34,13 @@ function OAuth() {
       });
 
       const data = await res.json();
-    //   console.log(data)
+  
 
       dispatch(SignInSuccess(data))
       navigate("/")
 
     } catch (error) {
-      console.error(error)
+      return error;
     }
   };
 

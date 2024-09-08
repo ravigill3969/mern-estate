@@ -44,7 +44,7 @@ function UpdateListing() {
       const data = await res.json();
 
       if (data.success === false) {
-        console.log(data)
+        
         return;
       }
 
@@ -54,7 +54,7 @@ function UpdateListing() {
     fetchListing();
   }, [params.id]);
 
-  //   console.log(formData);
+ 
 
   const handleImageSubmit = () => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
@@ -182,7 +182,6 @@ function UpdateListing() {
       if (data.success === false) {
         setError(data.message);
       }
-      console.log(data);
 
       navigate(`/listing/${data._id}`);
     } catch (error) {

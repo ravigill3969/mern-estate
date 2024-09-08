@@ -17,7 +17,6 @@ function Search() {
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(false);
 
-  console.log(listings);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -56,7 +55,8 @@ function Search() {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        console.log(error);
+        return error;
+        
       }
     };
 
