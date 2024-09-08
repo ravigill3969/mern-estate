@@ -2,7 +2,7 @@ import Listing from "../models/listing.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const createListing = async (req, res, next) => {
-  console.log(req.body);
+ 
   try {
     const newListing = await Listing.create(req.body);
 
@@ -70,7 +70,6 @@ export const getListing = async (req, res, next) => {
 };
 
 export const getListings = async (req, res, next) => {
-  console.log(req.query);
   try {
     const limit = req.query.limit ? parseInt(req.query.limit) : 9;
     const startIndex = (req.query.page - 1) * limit || 0;
