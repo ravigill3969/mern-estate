@@ -7,6 +7,8 @@ import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 import listingRouter from "./routes/listing.route.js";
 
+import path from "path";
+
 dotenv.config();
 
 mongoose
@@ -17,6 +19,8 @@ mongoose
   .catch((err) => {
     console.log("Error connecting to DB:", err);
   });
+
+const __dirname = path.resolve();
 
 const app = express();
 
@@ -31,6 +35,12 @@ const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(`running on ${PORT}`);
+});
+
+app.use(express.static(path.join(__dirname, "client/dist")));
+
+app.use("*", (req, res, next) => {
+  res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
 });
 
 app.use((err, req, res, next) => {
